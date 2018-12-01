@@ -1,0 +1,122 @@
+- name: Create temporary directory
+  tempfile:
+    state: directory
+    suffix: app
+  register: r_tempfile
+  delegate_to: localhost
+  run_once: yes
+  become: no
+
+- name: Git clone the application from repo tag "{{ version }}"
+  git:
+    repo: "{{ app }}"
+    version: "{{ version }}"
+    dest: "{{ r_tempfile.path }}"
+  delegate_to: localhost
+  run_once: yes
+  become: no
+  when:
+    - version is defined and version != ""
+
+- name: Remove git history  
+  file:
+    path: "{{ r_tempfile.path }}/.git"
+    state: absent
+  delegate_to: localhost
+  run_once: yes
+  become: no
+
+- name: Copy ML Model with version "{{ version }}" from remote store
+  get_url:
+    url: "{{ bucket }}/model-{{ version }}.model"
+    dest: "{{ r_tempfile.path }}/app/model/model.model"
+    force: yes
+  delegate_to: localhost
+  run_once: yes
+  become: no
+
+- name: Create application directory on target hosts 
+  file:
+    path: /app
+    state: directory
+    mode: 0755
+  become: yes
+
+- name: Copy application to nodes 
+  copy:
+    src: "{{ r_tempfile.path }}/" 
+    dest: /app/
+  become: yes
+  
+- name: Run pip to install specified application requirements
+  pip:
+    requirements: /app/requirements.txt
+    extra_args: --no-cache-dir
+  become: yes
+
+- name: Customize gunicorn config for S3
+  blockinfile:
+    path: /app/app/cfg.py
+    marker: "# -- ANSIBLE MANAGED BLOCK -- #"
+    content: |
+      raw_env =  [
+      'S3_BUCKET_NAME={{ results_bucket }}',
+      'S3_KEY={{ AWS_KEY }}',
+      'S3_SECRET={{ AWS_SECRET }}',
+      'OBJECT_STORE={{ object_store }}'
+      ]
+  when: object_store == 's3'
+  become: yes
+
+- name: Customize gunicorn config for Azure blob
+  blockinfile:
+    path: /app/app/cfg.py
+    marker: "# -- ANSIBLE MANAGED BLOCK -- #"
+    content: |
+      raw_env =  [
+      'BLOB_ACCOUNT={{ blob_account }}',
+      'BLOB_KEY={{ blob_key }}',
+      'BLOB_CONTAINER={{ blob_container }}',
+      'OBJECT_STORE={{ object_store }}'
+      ]
+  when: object_store == 'blob'
+  become: yes
+
+- name: Customize gunicorn config for Google blob
+  blockinfile:
+    path: /app/app/cfg.py
+    marker: "# -- ANSIBLE MANAGED BLOCK -- #"
+    content: |
+      raw_env =  [
+      'GOOG_BUCKET_NAME={{ goog_bucket }}',
+      'OBJECT_STORE={{ object_store }}'
+      ]
+  when: object_store == 'goog'
+  become: yes
+
+- name: Customize gunicorn config for local access
+  blockinfile:
+    path: /app/app/cfg.py
+    marker: "# -- ANSIBLE MANAGED BLOCK -- #"
+    content: |
+      raw_env =  [
+      'OBJECT_STORE={{ object_store }}'
+      ]
+  when: object_store == 'local'
+  become: yes
+
+- name: Start gunicorn
+  command: gunicorn -c cfg.py app:app
+  args:
+    chdir: /app/app
+  async: 1
+  poll: 0 
+  become: yes
+ 
+- name: Remove temporary setup files
+  file:
+    path: "{{ r_tempfile.path }}"
+    state: absent
+  delegate_to: localhost
+  run_once: yes
+  become: no
