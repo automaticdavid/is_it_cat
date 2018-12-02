@@ -24,7 +24,7 @@
     name: firewalld 
     masked: no  
     enabled: yes
-    state: restarded
+    state: restarted
 
 - name: Open firewall for http
   firewalld:
