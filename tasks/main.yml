@@ -1,6 +1,6 @@
 ---
 # tasks file for is_it_cat
 - name: Configure the host system
-  include_tasks: cat_config_system
+  include_tasks: cat_config_system.yml
 - name: Install the IS IT CAT Application
-  include_tasks: cat_install
+  include_tasks: cat_install.yml
