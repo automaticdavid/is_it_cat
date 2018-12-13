@@ -1,8 +1,8 @@
 ---
-- name: Verify that Red Hat Subscription Manager is present
+- name: Verify that the latest Red Hat Subscription Manager is present
   yum:
     name: subscription-manager
-    state: present
+    state: latest
 
 - name: Register system into RHSM
   redhat_subscription:
