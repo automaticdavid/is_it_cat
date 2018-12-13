@@ -9,6 +9,7 @@
     state: present
     username: "{{ rhsm_username }}"
     password: "{{ rhsm_password }}"
+    force_register: yes
 
 - name: Add the EPEL repository
   yum:
