@@ -11,23 +11,13 @@
     password: "{{ rhsm_password }}"
     force_register: yes
 
-# - name: Add the EPEL repository
-#  yum:
-#    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+- name: Add the EPEL repository
+  yum:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     
 - name: Install needed packages
   yum:
-    # name: [ python-pip, unzip, libXext, libSM, libXrender, firewalld ]
-    name: 
-      - unzip
-      - libXext
-      - libSM
-      - libXrender 
-      - firewalld
-      - httpd
-      - php
-      - php-mysql
-      - libsemanage-python
+    name: [ python-pip, unzip, libXext, libSM, libXrender, firewalld ]
     state: present
 
 - name: Configure firewalld 
