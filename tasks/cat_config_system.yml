@@ -17,7 +17,14 @@
     
 - name: Install needed packages
   yum:
-    name: [ python-pip, unzip, libXext, libSM, libXrender, firewalld ]
+    # name: [ python-pip, unzip, libXext, libSM, libXrender, firewalld ]
+    name: 
+      - python-pip
+      - unzip
+      - libXext
+      - libSM
+      - libXrender 
+      - firewalld
     state: present
 
 - name: Configure firewalld 
