@@ -19,7 +19,6 @@
   yum:
     # name: [ python-pip, unzip, libXext, libSM, libXrender, firewalld ]
     name: 
-      - python-pip
       - unzip
       - libXext
       - libSM
