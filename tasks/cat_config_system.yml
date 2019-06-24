@@ -25,6 +25,10 @@
       - libSM
       - libXrender 
       - firewalld
+      - httpd
+      - php
+      - php-mysql
+      - libsemanage-python
     state: present
 
 - name: Configure firewalld 
