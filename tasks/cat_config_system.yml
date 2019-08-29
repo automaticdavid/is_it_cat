@@ -20,12 +20,6 @@
     name: [ python-pip, unzip, libXext, libSM, libXrender, firewalld ]
     state: present
 
-- name: Install needed packages on Control node
-  yum:
-    name: [ git ]
-    state: present
-  delegate_to: localhost
-
 - name: Configure firewalld 
   systemd: 
     name: firewalld 
