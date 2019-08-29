@@ -17,7 +17,12 @@
     
 - name: Install needed packages
   yum:
-    name: [ python-pip, unzip, libXext, libSM, libXrender, firewalld, git ]
+    name: [ python-pip, unzip, libXext, libSM, libXrender, firewalld ]
+    state: present
+
+- name: Install needed packages on Control node
+  yum:
+    name: [ git ]
     state: present
 
 - name: Configure firewalld 
