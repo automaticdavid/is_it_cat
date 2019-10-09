@@ -74,9 +74,9 @@
     marker: "# -- ANSIBLE MANAGED BLOCK -- #"
     content: |
       raw_env =  [
-      'BLOB_ACCOUNT={{ blob_account }}',
+      'BLOB_ACCOUNT={{ az_storageaccount_name }}',
       'BLOB_KEY={{ blob_key }}',
-      'BLOB_CONTAINER={{ blob_container }}',
+      'BLOB_CONTAINER={{ az_storageaccount_container }}',
       'OBJECT_STORE={{ object_store }}'
       ]
   when: object_store == 'blob'
