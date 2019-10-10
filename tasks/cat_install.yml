@@ -70,9 +70,9 @@
 
 - name: Read Azure blob values from facts
   set_fact:
-    blob_account: "{{ ansible_facts['cat_facts']['blob_account'] }}"
-    blob_key: "{{ ansible_facts['cat_facts']['blob_key'] }}"
-    blob_container: "{{ ansible_facts['cat_facts']['blob_container'] }}"
+    blob_account: "{{ hostvars['cat_facts']['blob_account'] }}"
+    blob_key: "{{ hostvars['cat_facts']['blob_key'] }}"
+    blob_container: "{{ hostvars['cat_facts']['blob_container'] }}"
   delegate_to: localhost
   when: object_store == 'blob'
 
