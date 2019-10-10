@@ -68,15 +68,23 @@
   when: object_store == 's3'
   become: yes
 
+- name: Read Azure blob values from facts
+  set_fact:
+    blob_account: "{{ ansible_facts['cat_facts']['blob_account'] }}"
+    blob_key: "{{ ansible_facts['cat_facts']['blob_key'] }}"
+    blob_container: "{{ ansible_facts['cat_facts']['blob_container'] }}"
+  delegate_to: localhost
+  when: object_store == 'blob'
+
 - name: Customize gunicorn config for Azure blob
   blockinfile:
     path: /app/app/cfg.py
     marker: "# -- ANSIBLE MANAGED BLOCK -- #"
     content: |
       raw_env =  [
-      'BLOB_ACCOUNT={{ az_storageaccount_name }}',
+      'BLOB_ACCOUNT={{ blob_account }}',
       'BLOB_KEY={{ blob_key }}',
-      'BLOB_CONTAINER={{ az_storageaccount_container }}',
+      'BLOB_CONTAINER={{ blob_key }}',
       'OBJECT_STORE={{ object_store }}'
       ]
   when: object_store == 'blob'
