@@ -130,7 +130,7 @@
 
 - name: Smoke Test
   uri: 
-    url: "{{ cat_facts.lb_fqdn }}"
+    url: "{{ hostvars.ansible.cat_facts.lb_fqdn }}"
   register: smoke_test
   until: smoke_test.status == 200
   retries: 10

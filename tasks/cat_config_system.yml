@@ -36,9 +36,6 @@
   with_items: 
     - 80
 
-# - name: Register with Red Had Insight
-#   command: redhat-access-insights --register
-
 - name: Update pip and setup tools
   pip:
     name: [ pip, setuptools ]
