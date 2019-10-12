@@ -142,6 +142,6 @@
      - "* Provision Success"
      - "* Reach Application at: {{ hostvars.ansible.cat_facts.lb_fqdn }}"
      - "* Load Balancer IP: {{ hostvars.ansible.cat_facts.lb_ip }}"   
-  verbosity: 0
+    verbosity: 0
 
-  
+
