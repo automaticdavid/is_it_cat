@@ -69,7 +69,7 @@
   become: yes
 
 - debug: 
-    var: hostvars.ansible.cat_facts.blob_account
+    var: hostvars.ansible.cat_facts
 
 - name: Read Azure blob values from facts
   set_fact:
@@ -81,7 +81,7 @@
 - name: Customize gunicorn config for Azure blob
   blockinfile:
     path: /app/app/cfg.py
-    marker: "# -- ANSIBLE MANAGED BLOCK -- #"
+    marker: "# -- {mark} ANSIBLE MANAGED BLOCK -- #"
     content: |
       raw_env =  [
       'BLOB_ACCOUNT={{ blob_account }}',
