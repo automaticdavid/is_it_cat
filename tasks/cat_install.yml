@@ -86,7 +86,7 @@
       raw_env =  [
       'BLOB_ACCOUNT={{ blob_account }}',
       'BLOB_KEY={{ blob_key }}',
-      'BLOB_CONTAINER={{ blob_key }}',
+      'BLOB_CONTAINER={{ blob_container }}',
       'OBJECT_STORE={{ object_store }}'
       ]
   when: object_store == 'blob'
