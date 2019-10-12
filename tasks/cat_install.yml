@@ -68,6 +68,9 @@
   when: object_store == 's3'
   become: yes
 
+- debug: 
+    var: hostvars
+    
 - name: Read Azure blob values from facts
   set_fact:
     blob_account: "{{ hostvars.ansible.cat_facts.blob_account }}"
