@@ -128,7 +128,7 @@
   run_once: yes
   become: no
 
-- name: Smoke Test
+- name: Smoke Test for "{{ hostvars.ansible.cat_facts.lb_fqdn }}"
   uri: 
     url: "{{ hostvars.ansible.cat_facts.lb_fqdn }}"
   register: smoke_test
