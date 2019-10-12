@@ -68,9 +68,6 @@
   when: object_store == 's3'
   become: yes
 
-- debug: 
-    var: hostvars.ansible.cat_facts
-
 - name: Read Azure blob values from facts
   set_fact:
     blob_account: "{{ hostvars.ansible.cat_facts.blob_account }}"
@@ -130,3 +127,21 @@
   delegate_to: localhost
   run_once: yes
   become: no
+
+- name: Smoke Test
+  uri: 
+    url: "{{ cat_facts.lb_fqdn }}"
+  register: smoke_test
+  until: smoke_test.status == 200
+  retries: 10
+  delay: 10
+
+- name: Notify Success
+  debug: 
+    msg:
+     - "* Provision Success"
+     - "* Reach Application at: {{ hostvars.ansible.cat_facts.lb_fqdn }}"
+     - "* Load Balancer IP: {{ hostvars.ansible.cat_facts.lb_ip }}"   
+  verbosity: 0
+
+  
