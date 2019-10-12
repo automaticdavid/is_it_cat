@@ -69,11 +69,11 @@
   become: yes
 
 - debug: 
-    var: hostvars
-    
+    var: hostvars.ansible.cat_facts.blob_account
+
 - name: Read Azure blob values from facts
   set_fact:
-    blob_account: "{{ hostvars.ansible.cat_facts.blob_account }}"
+    blob_account: hostvars.ansible.cat_facts.blob_account
     blob_key: "{{ hostvars['ansible']['cat_facts']['blob_key'] }}"
     blob_container: "{{ hostvars['ansible']['blob_container'] }}"
   when: object_store == 'blob'
