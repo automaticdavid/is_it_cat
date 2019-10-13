@@ -135,6 +135,7 @@
   until: smoke_test.status == 200
   retries: 10
   delay: 10
+  run_once: yes
 
 - name: Notify Success
   debug: 
@@ -143,5 +144,6 @@
      - "* Reach Application at: {{ hostvars.ansible.cat_facts.lb_fqdn }}"
      - "* Load Balancer IP: {{ hostvars.ansible.cat_facts.lb_ip }}"   
     verbosity: 0
+  run_once: yes
 
 
