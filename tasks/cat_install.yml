@@ -54,6 +54,11 @@
     extra_args: --no-cache-dir
   become: yes
 
+- name: Get AWS connection strings from credential
+  set_fact:
+    AWS_KEY: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    AWS_SECRET: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+
 - name: Customize gunicorn config for S3
   blockinfile:
     path: /app/app/cfg.py
