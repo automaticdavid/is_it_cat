@@ -3,6 +3,8 @@
   yum:
     name: subscription-manager
     state: latest
+  when: cat_rhsm
+
 
 - name: Register system into RHSM
   redhat_subscription:
