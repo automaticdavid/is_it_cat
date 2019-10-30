@@ -4,12 +4,13 @@
     name: subscription-manager
     state: latest
 
-# - name: Register system into RHSM
-#   redhat_subscription:
-#     state: present
-#     username: "{{ rhsm_username }}"
-#     password: "{{ rhsm_password }}"
-#     force_register: yes
+- name: Register system into RHSM
+  redhat_subscription:
+    state: present
+    username: "{{ rhsm_username }}"
+    password: "{{ rhsm_password }}"
+    force_register: yes
+  when: cat_rhsm is yes
 
 - name: Add the EPEL repository
   yum:
