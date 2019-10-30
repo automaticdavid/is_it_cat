@@ -10,7 +10,7 @@
     username: "{{ rhsm_username }}"
     password: "{{ rhsm_password }}"
     force_register: yes
-  when: cat_rhsm is yes
+  when: cat_rhsm
 
 - name: Add the EPEL repository
   yum:
