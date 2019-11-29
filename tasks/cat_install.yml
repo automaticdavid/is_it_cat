@@ -75,9 +75,9 @@
 
 - name: Read Azure blob values from facts
   set_fact:
-    blob_account: "{{ hostvars.ansible.cat_facts.blob_account }}"
-    blob_key: "{{ hostvars.ansible.cat_facts.blob_key }}"
-    blob_container: "{{ hostvars.ansible.cat_facts.blob_container }}"
+    blob_account: "{{ hostvars.fact_store.cat_facts.blob_account }}"
+    blob_key: "{{ hostvars.fact_store.cat_facts.blob_key }}"
+    blob_container: "{{ hostvars.fact_store.cat_facts.blob_container }}"
   when: object_store == 'blob'
 
 - name: Customize gunicorn config for Azure blob
@@ -133,9 +133,9 @@
   run_once: yes
   become: no
 
-- name: Smoke Test for "{{ hostvars.ansible.cat_facts.lb_fqdn }}"
+- name: Smoke Test for "{{ hostvars.fact_store.cat_facts.lb_fqdn }}"
   uri: 
-    url: "http://{{ hostvars.ansible.cat_facts.lb_fqdn }}"
+    url: "http://{{ hostvars.fact_store.cat_facts.lb_fqdn }}"
   register: smoke_test
   until: smoke_test.status == 200
   retries: 10
