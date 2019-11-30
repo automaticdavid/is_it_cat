@@ -147,7 +147,7 @@
     msg:
      - "* Provision Success"
      - "* Reach Application at: {{ hostvars.fact_store.cat_facts.lb_fqdn }}"
-     - "* Load Balancer IP: {{ hostvars.fact_store.cat_facts.lb_ip }}"   
+     # - "* Load Balancer IP: {{ hostvars.fact_store.cat_facts.lb_ip }}"   
     verbosity: 0
   run_once: yes
 
