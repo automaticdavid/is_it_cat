@@ -133,22 +133,3 @@
   run_once: yes
   become: no
 
-- name: Smoke Test for "{{ hostvars.fact_store.cat_facts.lb_fqdn }}"
-  uri: 
-    url: "http://{{ hostvars.fact_store.cat_facts.lb_fqdn }}"
-  register: smoke_test
-  until: smoke_test.status == 200
-  retries: 10
-  delay: 10
-  run_once: yes
-
-- name: Notify Success
-  debug: 
-    msg:
-     - "* Provision Success"
-     - "* Reach Application at: {{ hostvars.fact_store.cat_facts.lb_fqdn }}"
-     # - "* Load Balancer IP: {{ hostvars.fact_store.cat_facts.lb_ip }}"   
-    verbosity: 0
-  run_once: yes
-
-
